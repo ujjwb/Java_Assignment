@@ -1,18 +1,14 @@
 import java.io.*;
 
-public class ICICI extends Bank {
-
-
-    public ICICI( long accNumber, double balance) {
-        this.ifsc = "ICICI0000099";
-        this.bankName = "ICICI";
-        this.rateOfInterest = 3.5;
+public class BOB extends Bank{
+    public BOB( long accNumber, double balance) {
+        this.ifsc = "BOB0000039";
+        this.bankName = "BOB";
+        this.rateOfInterest = 3.25;
         this.balance = balance;
         this.accNumber = accNumber;
-        this.t=accType.SAVINGS;
-
+        this.t=accType.CURRENT;
     }
-
     @Override
     public void saveToFile(String s) {
         try{
@@ -32,7 +28,7 @@ public class ICICI extends Bank {
 
     @Override
     public void readFile() {
-        System.out.println("\nICICI BANK LOGS: ");
+        System.out.println("\nBOB BANK LOGS: ");
         try(BufferedReader b=new BufferedReader(new FileReader( "files/"+bankName+".txt"))){
             String line;
             while((line=b.readLine())!=null){
@@ -46,4 +42,5 @@ public class ICICI extends Bank {
             System.out.println("Error Occurr ed");
         }
     }
+
 }
