@@ -10,10 +10,12 @@ class StackFull extends Exception{
     }
 }
 class SpecialStack {
-    int maxSize, size,stack[], min;
+
+    int maxSize, size,stack[],minStack[];
 
     public SpecialStack(int maxSize){
         this.stack= new int[maxSize];
+        this.minStack=new int[maxSize];
         this.maxSize=maxSize;
         this.size=0;
     }
@@ -29,13 +31,15 @@ class SpecialStack {
         }
         stack[size]=element;
         if(size==0){
-            min=element;
+            minStack[size]=element;
         }
-        else if(element<min){
-            min=element;
+        else if(minStack[size-1]>element){
+            minStack[size]=element;
+        }
+        else if(minStack[size-1]<element){
+            minStack[size]=minStack[size-1];
         }
         size++;
-
     }
     public int pop(){
         try {
@@ -59,25 +63,33 @@ class SpecialStack {
     public void print() {
         for(int i=0;i<size;i++){
             System.out.printf(stack[i]+" ");
+
         }
-        System.out.printf("\n");
+        System.out.println("");
     }
+
+
     public int getMin()
     {
-        return min;
+        return minStack[size-1];
     }
 }
 
 public class Source1 {
     public static void main(String[] args) {
-        SpecialStack stack1=new SpecialStack(5);
+        SpecialStack stack1=new SpecialStack(10);
         stack1.push(48);
         stack1.push(20);
         stack1.push(40);
-        stack1.push(38);
+        stack1.push(21);
         stack1.push(29);
-        stack1.push(73);
-        System.out.println(stack1.pop()+" "+stack1.pop()+ " "+stack1.getMin());
+        stack1.push(23);
+        stack1.push(1);
+        stack1.push(18);
+
+
+
+        System.out.println(stack1.getMin()+" "+stack1.pop()+" "+stack1.pop()+ " "+stack1.getMin());
         stack1.print();
     }
 }
