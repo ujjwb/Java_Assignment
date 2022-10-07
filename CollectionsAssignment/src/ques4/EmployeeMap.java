@@ -14,7 +14,7 @@ public class EmployeeMap {
         map1.put(e3,550000);
         map1.put(e4,520000);
         for(Employee e:map1.keySet()){
-            System.out.println(e+" Salary: "+map1.get(e));
+            System.out.println(e+" Salary: "+map1.get(e) );
         }
     }
 }

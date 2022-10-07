@@ -16,6 +16,7 @@ class SalaryComparator implements Comparator<Employee>{
             return 1;
         }
     }
+
 }
 class Employee implements Comparable<Employee>{
     double age,salary;

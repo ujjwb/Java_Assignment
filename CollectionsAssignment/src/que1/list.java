@@ -10,7 +10,7 @@ public class list {
             list1.add(sc.nextFloat());
         }
         Iterator<Float> it=list1.iterator();
-        float sum=0f;
+        float sum=0;
         while(it.hasNext()){
             sum = sum + it.next();
         }

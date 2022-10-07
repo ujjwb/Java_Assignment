@@ -28,12 +28,23 @@ class Number{
     }
 }
 class Calculate{
-    public int addTwo(Number n1, Number n2){
+    public int addTwo(Number n1, Number n2) {
         synchronized(n1.getLock()){
-            synchronized (n2.getLock()){
+            synchronized(n2.getLock()){
+                try{
+                    n1.getLock().wait();
+
+                System.out.println("Lock 1");
+                n2.getLock().wait();
+                System.out.println("Lock 2");}
+                catch(InterruptedException e){
+                    e.printStackTrace();
+                }
                 int n=n1.getNumber();
                 n1.setNumber(n2.getNumber());
                 n2.setNumber(n);
+                n1.getLock().notify();
+                n2.getLock().notify();
                 return n1.getNumber()+n;
             }
         }
@@ -57,8 +68,16 @@ public class Que5 {
                 c.addTwo(n1,n2);
             }
         });
-        System.out.println("done");
+
         t1.start();
         t2.start();
+        try {
+            t1.join();
+            t2.join();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        System.out.println("done");
     }
 }
