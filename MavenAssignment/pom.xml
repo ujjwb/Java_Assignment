@@ -6,7 +6,13 @@
 
     <groupId>org.example</groupId>
     <artifactId>MavenAssignment</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>Module1</module>
+        <module>Module2</module>
+        <module>SharedModule</module>
+    </modules>
 
     <repositories>
         <repository>
@@ -33,14 +39,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+
                 <configuration>
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>org.example.Main</mainClass>
+                            <mainClass>org.exampssle.Main</mainClass>
                         </manifest>
                     </archive>
-                </configuration>
+                </configuration>s
             </plugin>
         </plugins>
     </build>
