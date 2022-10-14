@@ -8,35 +8,33 @@ import org.mockito.runners.MockitoJUnitRunner;
 
 import static junit.framework.TestCase.assertTrue;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anyString;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @RunWith(MockitoJUnitRunner.class)
 public class EmailServiceTest {
 
     @InjectMocks
     EmailService emailService;
-    @Spy
+    @Mock
     Order order;
 
-    String cc;
 
-    @Captor
-    ArgumentCaptor<Boolean> booleanCaptor;
+    //@Captor
+    //ArgumentCaptor<Boolean> booleanCaptor;
 
     @Test(expected=RuntimeException.class)
     public void testSendEmail(){
         emailService.sendEmail(order);
-        verify(order).setCustomerNotified(booleanCaptor.capture());
-        assertEquals(false,booleanCaptor.getValue());
-
+        //verify(order).setCustomerNotified(false);
+        //assertEquals(false,booleanCaptor.getValue());
+        doThrow(RuntimeException.class).when(order).setCustomerNotified(false);
     }
 
     @Test
     public void testSendEmail2(){
-        when(emailService.sendEmail(order,anyString())).thenReturn(true);
+        boolean result=emailService.sendEmail(order,"Send Email");
         //verify(order).setCustomerNotified(booleanCaptor.capture());
-        assertTrue(emailService.sendEmail(order,cc));
+        verify(order,times(1)).setCustomerNotified(true);
+        assertTrue(result);
     }
 }
