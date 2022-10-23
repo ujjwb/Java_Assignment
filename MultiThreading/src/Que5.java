@@ -27,46 +27,51 @@ class Number{
         this.lock = lock;
     }
 }
-class Calculate{
-    public int addTwo(Number n1, Number n2) {
-        synchronized(n1.getLock()){
-            synchronized(n2.getLock()){
-                try{
-                    n1.getLock().wait();
 
-                System.out.println("Lock 1");
-                n2.getLock().wait();
-                System.out.println("Lock 2");}
-                catch(InterruptedException e){
-                    e.printStackTrace();
-                }
-                int n=n1.getNumber();
-                n1.setNumber(n2.getNumber());
-                n2.setNumber(n);
-                n1.getLock().notify();
-                n2.getLock().notify();
-                return n1.getNumber()+n;
-            }
-        }
-
-    }
-}
 public class Que5 {
     public static void main(String[] args) {
         Number n1=new Number(25);
         Number n2=new Number(45);
-        Calculate c=new Calculate();
+
         Thread t1=new Thread(()->{
-            for(int i=0;i<100;i++){
+                    synchronized(n1.getLock()){
+                        System.out.println("Lock 1");
+                        try {
+                            Thread.sleep(100);
+                        } catch (InterruptedException e) {
+                            throw new RuntimeException(e);
+                        }
+                        synchronized(n2.getLock()){
+                            System.out.println("Lock 2");
+                            int n=n1.getNumber();
+                            n1.setNumber(n2.getNumber());
+                            n2.setNumber(n);
+                            System.out.println();
 
-                c.addTwo(n1,n2);
-            }
+                        }
+                }
+
         });
-        Thread t2=new Thread(()->{
-            for(int i=0;i<100;i++){
 
-                c.addTwo(n1,n2);
+
+        Thread t2=new Thread(()->{
+            synchronized(n2.getLock()){
+                System.out.println("Lock 2");
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                synchronized(n1.getLock()){
+                    System.out.println("Lock 1");
+                    int n=n1.getNumber();
+                    n1.setNumber(n2.getNumber());
+                    n2.setNumber(n);
+                    System.out.println();
+
+                }
             }
+
         });
 
         t1.start();
